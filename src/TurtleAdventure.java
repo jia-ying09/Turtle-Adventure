@@ -165,6 +165,7 @@ public class TurtleAdventure extends JComponent {
                 legTwoX = legTwoX + 5;
                 legThreeX = legThreeX + 5;
                 legFourX = legFourX + 5;}
+             
               //movements for left key
                  if (leftPressed) {
                  shellX = shellX - 5;
@@ -174,14 +175,11 @@ public class TurtleAdventure extends JComponent {
                 legThreeX = legThreeX - 5;
                 legFourX = legFourX - 5;}
                  
+             if (jump && !inAir){
                  
-                 
-             if (jump&&!inAir){
-                 
-                 if (jump){
                  shellY = shellY - 5;
                  headY = headY - 5;
-                 legY = legY - 5;}
+                 legY = legY - 5;
              inAir = false;}
              
 
