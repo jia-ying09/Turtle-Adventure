@@ -1,6 +1,7 @@
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -21,7 +22,7 @@ public class TurtleAdventure extends JComponent {
     static final int HEIGHT = 600;
     //Title of the window
     String title = "My Game";
-    boolean downPressed;
+   
     
     // sets the framerate and delay for our game
     // you just need to select an approproate framerate
@@ -29,10 +30,38 @@ public class TurtleAdventure extends JComponent {
     long desiredTime = (1000) / desiredFPS;
     // YOUR GAME VARIABLES WOULD GO HERE
     
+     boolean downPressed;
+    boolean upPressed;
+    boolean rightPressed;
+    boolean leftPressed;   
+    int gravity = 1;
+    boolean inAir = false;
+    boolean jump = false;
     Color greenish = new Color(144, 212, 144);
     Color shell = new Color(98, 181, 103);
 
+    //shell coordinates
     int shellY = 500;
+    int shellX = 10;
+    //head coordinates
+    int headX = 80;
+    int headY = 510;
+    //leg 1 coordinates
+    int legOneX = 15;
+    int legY = 525;
+    //leg 2 coordinates
+    int legTwoX = 25;
+    //leg 3 coordinates
+    int legThreeX = 60;
+    //leg 4 coordinates
+    int legFourX = 70;
+    
+    
+ 
+    
+    //creating a score keeper
+    int player = 0;
+    Font myFront = new Font("Ariel", Font.BOLD, 75);
     
     // GAME VARIABLES END HERE   
     // Constructor to create the Frame and place the panel in
@@ -75,16 +104,16 @@ public class TurtleAdventure extends JComponent {
         g.setColor(greenish);
        // g.setColor(shell);
         //shell
-        g.fillArc(10, shellY, 80, 60, 0, 180);
+        g.fillArc(shellX, shellY, 80, 60, 0, 180);
         
         //legs
-        g.fillRoundRect(15, 525, 10, 20, WIDTH, HEIGHT);
-        g.fillRoundRect(25, 525, 10, 20, WIDTH, HEIGHT);
-        g.fillRoundRect(60, 525, 10, 20, WIDTH, HEIGHT);
-        g.fillRoundRect(70, 525, 10, 20, WIDTH, HEIGHT);
+        g.fillRoundRect(legOneX, legY, 10, 20, WIDTH, HEIGHT);
+        g.fillRoundRect(legTwoX, legY, 10, 20, WIDTH, HEIGHT);
+        g.fillRoundRect(legThreeX, legY, 10, 20, WIDTH, HEIGHT);
+        g.fillRoundRect(legFourX, legY, 10, 20, WIDTH, HEIGHT);
 
         //face
-        g.fillOval(80, 510, 25, 20);}
+        g.fillOval(headX, headY, 25, 20);}
 
 
         // GAME DRAWING ENDS HERE
@@ -116,9 +145,45 @@ public class TurtleAdventure extends JComponent {
             // all your game rules and move is done in here
             // GAME LOGIC STARTS HERE 
             
+            //movements for down key
             if (downPressed) {
-                shellY = shellY + 2;
-            }
+                shellY = shellY + 3;
+                headX = headX - 4;
+                headY = headY + 3;
+            } 
+            //movements for up key
+             if (upPressed) {
+                shellY = shellY - 3;
+                headX = headX + 4;
+                headY = headY - 3;
+            } 
+             //movements for right key
+             if (rightPressed) {
+                 shellX = shellX + 5;
+                headX = headX + 5;
+                legOneX = legOneX + 5; 
+                legTwoX = legTwoX + 5;
+                legThreeX = legThreeX + 5;
+                legFourX = legFourX + 5;}
+              //movements for left key
+                 if (leftPressed) {
+                 shellX = shellX - 5;
+                headX = headX - 5;
+                legOneX = legOneX - 5; 
+                legTwoX = legTwoX - 5;
+                legThreeX = legThreeX - 5;
+                legFourX = legFourX - 5;}
+                 
+                 
+                 
+             if (jump&&!inAir){
+                 
+                 if (jump){
+                 shellY = shellY - 5;
+                 headY = headY - 5;
+                 legY = legY - 5;}
+             inAir = false;}
+             
 
 
             // GAME LOGIC ENDS HERE 
@@ -168,20 +233,49 @@ public class TurtleAdventure extends JComponent {
     // Used to implements any of the Keyboard Actions
     private class Keyboard extends KeyAdapter {
         // if a key has been pressed down
-        
-       
-            
-        
+
 
         @Override
         public void keyPressed(KeyEvent e) {
-             if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+            int key = e.getKeyCode();
+             if (key == KeyEvent.VK_DOWN) {
                 downPressed = true;
-        }}
-
+        }
+             if (key == KeyEvent.VK_UP) {
+                upPressed = true;
+        }
+             if (key == KeyEvent.VK_RIGHT) {
+                rightPressed = true;
+        } else 
+              if (key == KeyEvent.VK_LEFT) {
+                leftPressed = true;
+        } else 
+              if (key == KeyEvent.VK_SPACE){
+              jump = true;
+              }
+        }
+             
         // if a key has been released
         @Override
         public void keyReleased(KeyEvent e) {
+            int key = e.getKeyCode();
+             if (key == KeyEvent.VK_DOWN) {
+                downPressed = false;
+            }
+             if (key == KeyEvent.VK_UP) {
+                upPressed = false;
+             }
+             if (key == KeyEvent.VK_RIGHT) {
+                rightPressed = false;
+        } else
+              if (key == KeyEvent.VK_LEFT) {
+                leftPressed = false;
+        } else
+              if (key == KeyEvent.VK_SPACE){
+              jump = false;
+                
+                 
+              }
         }
     }
 
