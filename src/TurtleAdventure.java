@@ -37,12 +37,22 @@ public class TurtleAdventure extends JComponent {
     int gravity = 1;
     boolean inAir = false;
     boolean jump = false;
+    boolean right = false;
+    boolean left = false;
     Color greenish = new Color(144, 212, 144);
     Color shell = new Color(98, 181, 103);
-
+    
+    
+    int jumpVelocity = -15;
+    int maxYVelocity = 20;
+    int maxXVelocity = 6;
+    
+    
+    int dy = 0;
+    int dx = 0;
     //shell coordinates
-    int shellY = 500;
     int shellX = 10;
+    int shellY = 500;
     //head coordinates
     int headX = 80;
     int headY = 510;
@@ -55,9 +65,7 @@ public class TurtleAdventure extends JComponent {
     int legThreeX = 60;
     //leg 4 coordinates
     int legFourX = 70;
-    
-    
- 
+
     
     //creating a score keeper
     int player = 0;
@@ -113,9 +121,12 @@ public class TurtleAdventure extends JComponent {
         g.fillRoundRect(legFourX, legY, 10, 20, WIDTH, HEIGHT);
 
         //face
-        g.fillOval(headX, headY, 25, 20);}
-
-
+        g.fillOval(headX, headY, 25, 20);
+        
+        g.setColor(Color.CYAN);
+        g.drawRect(0, 500, 500, 100);
+    
+    }
         // GAME DRAWING ENDS HERE
     
 
@@ -144,7 +155,22 @@ public class TurtleAdventure extends JComponent {
 
             // all your game rules and move is done in here
             // GAME LOGIC STARTS HERE 
+            dy = dy + gravity;
+            if (dy > maxYVelocity){
+            dy = maxYVelocity;}
             
+            else if (dy < - maxYVelocity){
+            dy = -maxYVelocity;}           
+            
+            if (right){
+            dx = dx + 1;}
+            if (dx >maxXVelocity){
+                dx = maxXVelocity;
+            }
+            else if (left)
+            if (dx < - maxXVelocity){ 
+            dx = -maxXVelocity;}
+
             //movements for down key
             if (downPressed) {
                 shellY = shellY + 3;
@@ -175,13 +201,18 @@ public class TurtleAdventure extends JComponent {
                 legThreeX = legThreeX - 5;
                 legFourX = legFourX - 5;}
                  
-             if (jump && !inAir){
                  
-                 shellY = shellY - 5;
-                 headY = headY - 5;
-                 legY = legY - 5;
-             inAir = false;}
+                 //getting the turtle to jump
+             if (jump && !inAir){
+             inAir = false;
+             dy = jumpVelocity;}
              
+             shellY = shellY + dx;
+             shellY = shellY + dy;
+             legY = legY + dy;
+              legY = legY + dx;
+             headY = headY + dy;
+             headY = headY + dx;
 
 
             // GAME LOGIC ENDS HERE 
@@ -234,14 +265,17 @@ public class TurtleAdventure extends JComponent {
 
 
         @Override
+        //when the down key is pressed
         public void keyPressed(KeyEvent e) {
             int key = e.getKeyCode();
              if (key == KeyEvent.VK_DOWN) {
                 downPressed = true;
-        }
+        }else
+                 //if the up key is pressed
              if (key == KeyEvent.VK_UP) {
                 upPressed = true;
-        }
+        }else
+                 //if the 
              if (key == KeyEvent.VK_RIGHT) {
                 rightPressed = true;
         } else 
@@ -256,13 +290,14 @@ public class TurtleAdventure extends JComponent {
         // if a key has been released
         @Override
         public void keyReleased(KeyEvent e) {
+            
             int key = e.getKeyCode();
              if (key == KeyEvent.VK_DOWN) {
                 downPressed = false;
-            }
+            }else
              if (key == KeyEvent.VK_UP) {
                 upPressed = false;
-             }
+             }else
              if (key == KeyEvent.VK_RIGHT) {
                 rightPressed = false;
         } else
@@ -271,8 +306,7 @@ public class TurtleAdventure extends JComponent {
         } else
               if (key == KeyEvent.VK_SPACE){
               jump = false;
-                
-                 
+
               }
         }
     }
