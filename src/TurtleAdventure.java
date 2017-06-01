@@ -294,6 +294,7 @@ public class TurtleAdventure extends JComponent {
         public void keyReleased(KeyEvent e) {
             
             int key = e.getKeyCode();
+            //if the down key is released
              if (key == KeyEvent.VK_DOWN) {
                 downPressed = false;
             }else
