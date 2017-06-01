@@ -265,7 +265,7 @@ public class TurtleAdventure extends JComponent {
 
 
         @Override
-        //when the down key is pressed
+        //if the down key is pressed
         public void keyPressed(KeyEvent e) {
             int key = e.getKeyCode();
              if (key == KeyEvent.VK_DOWN) {
@@ -275,13 +275,15 @@ public class TurtleAdventure extends JComponent {
              if (key == KeyEvent.VK_UP) {
                 upPressed = true;
         }else
-                 //if the 
+                 //if the right key is pressed
              if (key == KeyEvent.VK_RIGHT) {
                 rightPressed = true;
         } else 
+                 //if the left key is pressed
               if (key == KeyEvent.VK_LEFT) {
                 leftPressed = true;
         } else 
+                  //if the space key is pressed
               if (key == KeyEvent.VK_SPACE){
               jump = true;
               }
