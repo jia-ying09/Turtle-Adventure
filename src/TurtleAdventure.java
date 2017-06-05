@@ -10,6 +10,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -42,6 +45,8 @@ public class TurtleAdventure extends JComponent {
     Color greenish = new Color(144, 212, 144);
     Color shell = new Color(98, 181, 103);
     
+    int podium = 550;
+    
     
     int jumpVelocity = -15;
     int maxYVelocity = 20;
@@ -65,11 +70,12 @@ public class TurtleAdventure extends JComponent {
     int legThreeX = 60;
     //leg 4 coordinates
     int legFourX = 70;
-
     
     //creating a score keeper
     int player = 0;
     Font myFront = new Font("Ariel", Font.BOLD, 75);
+    
+  //  BufferedImage background = loadImage(" "+background);
     
     // GAME VARIABLES END HERE   
     // Constructor to create the Frame and place the panel in
@@ -124,8 +130,9 @@ public class TurtleAdventure extends JComponent {
         g.fillOval(headX, headY, 25, 20);
         
         g.setColor(Color.CYAN);
-        g.drawRect(0, 500, 500, 100);
-    
+        g.drawRect(0, podium, 500, 100);
+        
+        //g.drawImage(background, WIDTH, HEIGHT, null);
     }
         // GAME DRAWING ENDS HERE
     
@@ -157,10 +164,18 @@ public class TurtleAdventure extends JComponent {
             // GAME LOGIC STARTS HERE 
             dy = dy + gravity;
             if (dy > maxYVelocity){
-            dy = maxYVelocity;}
+            dy = maxYVelocity;
+            if (legY == HEIGHT) {
+                     break;
+                  }
+            else if (headY == HEIGHT){
+            break;}}
             
             else if (dy < - maxYVelocity){
-            dy = -maxYVelocity;}           
+            dy = -maxYVelocity;
+            if (legY == HEIGHT) {
+                     break;
+                  }}           
             
             if (right){
             dx = dx + 1;}
@@ -199,8 +214,7 @@ public class TurtleAdventure extends JComponent {
                 legOneX = legOneX - 5; 
                 legTwoX = legTwoX - 5;
                 legThreeX = legThreeX - 5;
-                legFourX = legFourX - 5;}
-                 
+                legFourX = legFourX - 5;}   
                  
                  //getting the turtle to jump
              if (jump && !inAir){
@@ -213,6 +227,10 @@ public class TurtleAdventure extends JComponent {
               legY = legY + dx;
              headY = headY + dy;
              headY = headY + dx;
+             
+             if (legY >= podium){
+             inAir = false;
+             }
 
 
             // GAME LOGIC ENDS HERE 
@@ -323,5 +341,20 @@ public class TurtleAdventure extends JComponent {
 
         // starts the game loop
         game.run();
+    }
+    
+    public BufferedImage loadImage(String filename) {
+        
+        BufferedImage img = null;
+
+        try {
+            // use ImageIO to load in an Image
+            // ClassLoader is used to go into a folder in the directory and grab the file
+            img = ImageIO.read(ClassLoader.getSystemResourceAsStream(filename));
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
+        }
+
+        return img;
     }
 }
