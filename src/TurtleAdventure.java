@@ -43,11 +43,7 @@ public class TurtleAdventure extends JComponent {
     boolean right = false;
     boolean left = false;
     Color greenish = new Color(144, 212, 144);
-    Color shell = new Color(98, 181, 103);
-    
-    int podium = 550;
-    
-    
+   
     int jumpVelocity = -15;
     int maxYVelocity = 20;
     int maxXVelocity = 6;
@@ -71,11 +67,16 @@ public class TurtleAdventure extends JComponent {
     //leg 4 coordinates
     int legFourX = 70;
     
+     Color bluish = new Color (144, 195, 212);
+     Color purplish = new Color (163, 177, 217);
+     Color sand = new Color (219, 205, 171);
+    
     //creating a score keeper
     int player = 0;
     Font myFront = new Font("Ariel", Font.BOLD, 75);
     
-  //  BufferedImage background = loadImage(" "+background);
+      BufferedImage background = loadImage("background.png" );
+      BufferedImage shell = loadImage("shell.png" );
     
     // GAME VARIABLES END HERE   
     // Constructor to create the Frame and place the panel in
@@ -114,9 +115,23 @@ public class TurtleAdventure extends JComponent {
         g.clearRect(0, 0, WIDTH, HEIGHT);
 
         // GAME DRAWING GOES HERE
+        //inputting the bakcground
+         g.drawImage(background, 0, 0, WIDTH + 10, HEIGHT+ 10, null);
+         g.drawImage(shell, 150, 230, 100, 50, null);
+         g.drawImage(shell,400, 453, 100, 50, null);
+        g.drawImage(shell,348, 201, 100, 50, null);
+        g.drawImage(shell,604, 329, 100, 50, null);
+        g.drawImage(shell,WIDTH/2, 30, 100, 50, null);
+        g.drawImage(shell,680, 100, 100, 50, null);
+       
+         
+         //create a score board
+         g.setColor(purplish);
+        g.setFont(myFront);
+        g.drawString(" " + player, WIDTH/2, HEIGHT-HEIGHT);
         
+         
         g.setColor(greenish);
-       // g.setColor(shell);
         //shell
         g.fillArc(shellX, shellY, 80, 60, 0, 180);
         
@@ -129,10 +144,14 @@ public class TurtleAdventure extends JComponent {
         //face
         g.fillOval(headX, headY, 25, 20);
         
-        g.setColor(Color.CYAN);
-        g.drawRect(0, podium, 500, 100);
+        g.setColor(sand);
+        g.fillRect(0, 550, WIDTH, 100);
         
-        //g.drawImage(background, WIDTH, HEIGHT, null);
+        g.setColor(bluish);
+ 
+        
+
+        
     }
         // GAME DRAWING ENDS HERE
     
@@ -162,6 +181,15 @@ public class TurtleAdventure extends JComponent {
 
             // all your game rules and move is done in here
             // GAME LOGIC STARTS HERE 
+            dontfall(HEIGHT);
+             if (legY >= HEIGHT){
+                 
+                legY = legY;
+                headY = headY;
+                shellY = shellY;
+            inAir = false;
+              
+             }
             dy = dy + gravity;
             if (dy > maxYVelocity){
             dy = maxYVelocity;
@@ -227,11 +255,6 @@ public class TurtleAdventure extends JComponent {
               legY = legY + dx;
              headY = headY + dy;
              headY = headY + dx;
-             
-             if (legY >= podium){
-             inAir = false;
-             }
-
 
             // GAME LOGIC ENDS HERE 
             // update the drawing (calls paintComponent)
@@ -356,5 +379,14 @@ public class TurtleAdventure extends JComponent {
         }
 
         return img;
+    }
+    
+    public void dontfall (int position){
+        int overlapY = 1;
+        
+        if(legY <= HEIGHT){
+    overlapY = legY - HEIGHT;
+        }
+
     }
 }
