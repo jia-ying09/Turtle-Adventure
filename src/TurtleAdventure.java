@@ -76,7 +76,10 @@ public class TurtleAdventure extends JComponent {
     Font myFront = new Font("Ariel", Font.BOLD, 75);
     
       BufferedImage background = loadImage("background.png" );
-      BufferedImage shell = loadImage("shell.png" );
+      BufferedImage shell = loadImage("clam_shell.png" );
+      BufferedImage turtle = loadImage("turtle.png");
+      int turtleX = 150;
+      int turtleY = 500;
     
     // GAME VARIABLES END HERE   
     // Constructor to create the Frame and place the panel in
@@ -117,35 +120,36 @@ public class TurtleAdventure extends JComponent {
         // GAME DRAWING GOES HERE
         //inputting the bakcground
          g.drawImage(background, 0, 0, WIDTH + 10, HEIGHT+ 10, null);
-         g.drawImage(shell, 150, 230, 100, 50, null);
-         g.drawImage(shell,400, 453, 100, 50, null);
-        g.drawImage(shell,348, 201, 100, 50, null);
-        g.drawImage(shell,604, 329, 100, 50, null);
-        g.drawImage(shell,WIDTH/2, 30, 100, 50, null);
-        g.drawImage(shell,680, 100, 100, 50, null);
-       
          
+         g.drawImage(turtle, turtleX, turtleY, 50, 50, null); 
+         g.drawImage(shell, 150, 230, 100, 100, null);
+         g.drawImage(shell,400, 453, 100, 100, null);
+        g.drawImage(shell,348, 201, 100, 100, null);
+        g.drawImage(shell,604, 329, 100, 100, null);
+        g.drawImage(shell,WIDTH/2, 30, 100, 100, null);
+        g.drawImage(shell,680, 100, 100, 100, null);
+ 
          //create a score board
          g.setColor(purplish);
         g.setFont(myFront);
         g.drawString(" " + player, WIDTH/2, HEIGHT-HEIGHT);
-        
-         
+     
+         /* 
         g.setColor(greenish);
         //shell
         g.fillArc(shellX, shellY, 80, 60, 0, 180);
-        
+       
         //legs
         g.fillRoundRect(legOneX, legY, 10, 20, WIDTH, HEIGHT);
         g.fillRoundRect(legTwoX, legY, 10, 20, WIDTH, HEIGHT);
         g.fillRoundRect(legThreeX, legY, 10, 20, WIDTH, HEIGHT);
         g.fillRoundRect(legFourX, legY, 10, 20, WIDTH, HEIGHT);
-
         //face
-        g.fillOval(headX, headY, 25, 20);
+        g.fillOval(headX, headY, 25, 20); */
+    
         
         g.setColor(sand);
-        g.fillRect(0, 550, WIDTH, 100);
+    //    g.fillRect(0, 550, WIDTH, 100);
         
         g.setColor(bluish);
  
@@ -181,8 +185,11 @@ public class TurtleAdventure extends JComponent {
 
             // all your game rules and move is done in here
             // GAME LOGIC STARTS HERE 
+            
+            collision(); 
+            
             dontfall(HEIGHT);
-             if (legY >= HEIGHT){
+             if (legY >= 550){
                  
                 legY = legY;
                 headY = headY;
@@ -214,7 +221,7 @@ public class TurtleAdventure extends JComponent {
             if (dx < - maxXVelocity){ 
             dx = -maxXVelocity;}
 
-            //movements for down key
+       /*     //movements for down key
             if (downPressed) {
                 shellY = shellY + 3;
                 headX = headX - 4;
@@ -244,17 +251,29 @@ public class TurtleAdventure extends JComponent {
                 legThreeX = legThreeX - 5;
                 legFourX = legFourX - 5;}   
                  
-                 //getting the turtle to jump
-             if (jump && !inAir){
-             inAir = false;
-             dy = jumpVelocity;}
-             
              shellY = shellY + dx;
              shellY = shellY + dy;
              legY = legY + dy;
               legY = legY + dx;
              headY = headY + dy;
              headY = headY + dx;
+             */
+            
+            //getting the turtle to jump
+             if (jump && !inAir){
+             inAir = false;
+             dy = jumpVelocity;
+             }
+             
+              turtleY = turtleY + dy;
+              turtleX = turtleX + dx;
+              
+            if (rightPressed) {
+            turtleX = turtleX + 5;}
+            if (leftPressed) {
+            turtleX = turtleX - 5;}
+            if (jump) {
+            turtleY = turtleY - 5;}
 
             // GAME LOGIC ENDS HERE 
             // update the drawing (calls paintComponent)
@@ -386,7 +405,26 @@ public class TurtleAdventure extends JComponent {
         
         if(legY <= HEIGHT){
     overlapY = legY - HEIGHT;
-        }
+        } 
 
     }
+    
+    public void collision (){
+    //if the turtle hits the bottom of the screen
+        if (legY >= HEIGHT)
+        {
+        legY = legY - 25;
+        headY = headY - 25;
+        shellY = shellY - 25;
+        }
+        
+        if (turtleY >= 300){
+        turtleY = turtleY - turtleY ;
+        }
+        
+       /* if (turtleY = 230){
+            turtleY = turtleY;*/
+            
+        }
 }
+
