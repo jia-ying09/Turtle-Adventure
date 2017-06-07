@@ -152,10 +152,7 @@ public class TurtleAdventure extends JComponent {
     //    g.fillRect(0, 550, WIDTH, 100);
         
         g.setColor(bluish);
- 
-        
 
-        
     }
         // GAME DRAWING ENDS HERE
     
@@ -265,8 +262,10 @@ public class TurtleAdventure extends JComponent {
              dy = jumpVelocity;
              }
              
-              turtleY = turtleY + dy;
+              turtleY = turtleY + dy;      
               turtleX = turtleX + dx;
+
+              
               
             if (rightPressed) {
             turtleX = turtleX + 5;}
