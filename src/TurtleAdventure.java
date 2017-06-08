@@ -33,10 +33,12 @@ public class TurtleAdventure extends JComponent {
     long desiredTime = (1000) / desiredFPS;
     // YOUR GAME VARIABLES WOULD GO HERE
     
+    //creating booleans for the keys
      boolean downPressed;
     boolean upPressed;
     boolean rightPressed;
     boolean leftPressed;   
+    //gravity
     int gravity = 1;
     boolean inAir = false;
     boolean jump = false;
@@ -67,6 +69,7 @@ public class TurtleAdventure extends JComponent {
     //leg 4 coordinates
     int legFourX = 70;
     
+    //creating new colors
      Color bluish = new Color (144, 195, 212);
      Color purplish = new Color (163, 177, 217);
      Color sand = new Color (219, 205, 171);
@@ -75,11 +78,17 @@ public class TurtleAdventure extends JComponent {
     int player = 0;
     Font myFront = new Font("Ariel", Font.BOLD, 75);
     
+    //importing the background
       BufferedImage background = loadImage("background.png" );
+      //importing the shells
       BufferedImage shell = loadImage("clam_shell.png" );
+      //importing the turtle
       BufferedImage turtle = loadImage("turtle.png");
-      int turtleX = 150;
-      int turtleY = 500;
+      //the y coordinate of the turtle
+      int turtleX = 25 ;
+      //the x coordinate of the turtle
+      int turtleY = 525;
+      
     
     // GAME VARIABLES END HERE   
     // Constructor to create the Frame and place the panel in
@@ -121,20 +130,24 @@ public class TurtleAdventure extends JComponent {
         //inputting the bakcground
          g.drawImage(background, 0, 0, WIDTH + 10, HEIGHT+ 10, null);
          
-         g.drawImage(turtle, turtleX, turtleY, 50, 50, null); 
+          //imputting the shells
          g.drawImage(shell, 150, 230, 100, 100, null);
          g.drawImage(shell,400, 453, 100, 100, null);
         g.drawImage(shell,348, 201, 100, 100, null);
         g.drawImage(shell,604, 329, 100, 100, null);
         g.drawImage(shell,WIDTH/2, 30, 100, 100, null);
         g.drawImage(shell,680, 100, 100, 100, null);
+        
+        //imputting the turtle
+        g.drawImage(turtle, turtleX, turtleY, 50, 50, null);
  
          //create a score board
          g.setColor(purplish);
         g.setFont(myFront);
         g.drawString(" " + player, WIDTH/2, HEIGHT-HEIGHT);
      
-         /* 
+         /*         
+        //making a turtle
         g.setColor(greenish);
         //shell
         g.fillArc(shellX, shellY, 80, 60, 0, 180);
@@ -147,12 +160,6 @@ public class TurtleAdventure extends JComponent {
         //face
         g.fillOval(headX, headY, 25, 20); */
     
-        
-        g.setColor(sand);
-    //    g.fillRect(0, 550, WIDTH, 100);
-        
-        g.setColor(bluish);
-
     }
         // GAME DRAWING ENDS HERE
     
@@ -182,18 +189,20 @@ public class TurtleAdventure extends JComponent {
 
             // all your game rules and move is done in here
             // GAME LOGIC STARTS HERE 
-            
+            //collision method
             collision(); 
             
+            
+            // to not let the turtle fall off screen
             dontfall(HEIGHT);
              if (legY >= 550){
-                 
                 legY = legY;
                 headY = headY;
                 shellY = shellY;
-            inAir = false;
-              
+            inAir = false;       
              }
+             
+             
             dy = dy + gravity;
             if (dy > maxYVelocity){
             dy = maxYVelocity;
@@ -266,11 +275,13 @@ public class TurtleAdventure extends JComponent {
               turtleX = turtleX + dx;
 
               
-              
+              //making the turtle move to the right when righ key is pressed
             if (rightPressed) {
             turtleX = turtleX + 5;}
+            //making the turtle move left when left key is pressed
             if (leftPressed) {
             turtleX = turtleX - 5;}
+            //making the turtle jump when the space key is pressed
             if (jump) {
             turtleY = turtleY - 5;}
 
@@ -326,6 +337,7 @@ public class TurtleAdventure extends JComponent {
         @Override
         //if the down key is pressed
         public void keyPressed(KeyEvent e) {
+            //if the player presses the down button
             int key = e.getKeyCode();
              if (key == KeyEvent.VK_DOWN) {
                 downPressed = true;
@@ -357,15 +369,19 @@ public class TurtleAdventure extends JComponent {
              if (key == KeyEvent.VK_DOWN) {
                 downPressed = false;
             }else
+             //if the up key is released
              if (key == KeyEvent.VK_UP) {
                 upPressed = false;
              }else
+             //if the right key is released
              if (key == KeyEvent.VK_RIGHT) {
                 rightPressed = false;
         } else
+              //if the left key is released
               if (key == KeyEvent.VK_LEFT) {
                 leftPressed = false;
         } else
+              //if the space key is released
               if (key == KeyEvent.VK_SPACE){
               jump = false;
 
@@ -409,20 +425,31 @@ public class TurtleAdventure extends JComponent {
     }
     
     public void collision (){
-    //if the turtle hits the bottom of the screen
+  /*  //if the turtle I made hits the bottom of the screen
         if (legY >= HEIGHT)
         {
-        legY = legY - 25;
-        headY = headY - 25;
-        shellY = shellY - 25;
+        legY = legY - 5;
+        headY = headY - 5;
+        shellY = shellY - 5;
+        }*/
+        
+        //the make the turtle avoid falling into the void
+        if (turtleY >= 525){
+        turtleY = turtleY - 20;
         }
         
-        if (turtleY >= 300){
-        turtleY = turtleY - turtleY ;
-        }
+         //let the turtle stay on the shell at (453, 400)
+         if (turtleY == 400 && turtleX <= 450 || turtleY == 400 && turtleX >= 455){
+        turtleY = turtleY + (turtleY - 400);
+        turtleX = turtleX + (453 - turtleX);
+          } /*else
+        
+        if (turtleX == 150 || turtleX == 150 && turtleY == 230){
+        turtleY = turtleY - 20; 
+        turtleX = turtleX;}*/
         
        /* if (turtleY = 230){
-            turtleY = turtleY;*/
+            turtleY = turtleY; */
             
         }
 }
