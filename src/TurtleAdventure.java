@@ -79,15 +79,29 @@ public class TurtleAdventure extends JComponent {
     Font myFront = new Font("Ariel", Font.BOLD, 75);
     
     //importing the background
-      BufferedImage background = loadImage("background.png" );
+      BufferedImage background = loadImage("underwater.png" );
       //importing the shells
       BufferedImage shell = loadImage("clam_shell.png" );
+      int shellOneX = 150;
+      int shellOneY = 230;
+      int shellTwoX = 400;
+      int shellTwoY = 453;
+      int shellThreeX = 348;
+      int shellThreeY = 201;
+      int shellFourX = 604;
+      int shellFourY = 329;
+      int shellFiveX = WIDTH/2;
+      int shellFiveY = 30;
+      int shellSixX = 680;
+      int shellSixY = 100;
+      
       //importing the turtle
       BufferedImage turtle = loadImage("turtle.png");
       //the y coordinate of the turtle
       int turtleX = 25 ;
       //the x coordinate of the turtle
       int turtleY = 525;
+    private int position;
       
     
     // GAME VARIABLES END HERE   
@@ -131,12 +145,12 @@ public class TurtleAdventure extends JComponent {
          g.drawImage(background, 0, 0, WIDTH + 10, HEIGHT+ 10, null);
          
           //imputting the shells
-         g.drawImage(shell, 150, 230, 100, 100, null);
-         g.drawImage(shell,400, 453, 100, 100, null);
-        g.drawImage(shell,348, 201, 100, 100, null);
-        g.drawImage(shell,604, 329, 100, 100, null);
-        g.drawImage(shell,WIDTH/2, 30, 100, 100, null);
-        g.drawImage(shell,680, 100, 100, 100, null);
+         g.drawImage(shell, shellOneX, shellOneY, 100, 100, null);
+         g.drawImage(shell, shellTwoX, shellTwoY, 100, 100, null);
+        g.drawImage(shell, shellThreeX, shellThreeY, 100, 100, null);
+        g.drawImage(shell,shellFourX, shellFourY, 100, 100, null);
+        g.drawImage(shell,shellFiveX, shellFiveY, 100, 100, null);
+        g.drawImage(shell,shellSixX, shellSixY, 100, 100, null);
         
         //imputting the turtle
         g.drawImage(turtle, turtleX, turtleY, 50, 50, null);
@@ -436,17 +450,28 @@ public class TurtleAdventure extends JComponent {
         //the make the turtle avoid falling into the void
         if (turtleY >= 525){
         turtleY = turtleY - 20;
-        }
-        
-         //let the turtle stay on the shell at (453, 400)
-         if (turtleY == 400 && turtleX <= 450 || turtleY == 400 && turtleX >= 455){
-        turtleY = turtleY + (turtleY - 400);
-        turtleX = turtleX + (453 - turtleX);
-          } /*else
+        } 
+        //makes the turtle not go off screen
+            if (turtleX <= 0) {
+            turtleX = turtleX + 5;}
+            if (turtleX >= WIDTH - 50) {
+            turtleX = turtleX - 5;}
+
+      /*  if (turtleX <= shell.getWidth()){
+        turtleX = shell - 50;
+        }*/
+            //let the turtle stay on the shell at (453, 400)
+         if (turtleX >= shellTwoX - 3 && turtleY == shellTwoY || turtleX <= shellTwoX + 3 && turtleY == shellTwoY){
+        turtleY = 400;
+        turtleX = 453;
+          } 
+         
+      /*   else
         
         if (turtleX == 150 || turtleX == 150 && turtleY == 230){
         turtleY = turtleY - 20; 
-        turtleX = turtleX;}*/
+        turtleX = turtleX + (150 - turtleX);
+        inAir = false;}*/
         
        /* if (turtleY = 230){
             turtleY = turtleY; */
