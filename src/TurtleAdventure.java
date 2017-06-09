@@ -462,9 +462,38 @@ public class TurtleAdventure extends JComponent {
         }*/
             //let the turtle stay on the shell at (453, 400)
          if (turtleX >= shellTwoX - 3 && turtleY == shellTwoY || turtleX <= shellTwoX + 3 && turtleY == shellTwoY){
-        turtleY = 400;
-        turtleX = 453;
+         turtleX = 453;
+         turtleY = 400;
           } 
+         else
+         if (turtleX >= shellOneX - 3 && turtleY == shellOneY || turtleX <= shellOneX + 3 && turtleY == shellOneY){
+        turtleX = 150;
+        turtleY = 230;
+
+          } 
+         else
+         if (turtleX >= shellThreeX - 3 && turtleY == shellThreeY || turtleX <= shellThreeX + 3 && turtleY == shellThreeY){
+        turtleX = 201;
+        turtleY = 348;
+          } 
+           else
+         if (turtleX >= shellFourX - 3 && turtleY == shellFourY || turtleX <= shellFourX + 3 && turtleY == shellFourY){
+        turtleX = 329;
+        turtleY = 204;
+
+          } 
+         else
+         if (turtleX >= shellFiveX - 3 && turtleY == shellFiveY || turtleX <= shellFiveX + 3 && turtleY == shellFiveY){
+        turtleX = WIDTH/2;
+        turtleY = 30;
+        
+          }
+          else
+         if (turtleX >= shellSixX - 3 && turtleY == shellSixY || turtleX <= shellSixX + 3 && turtleY == shellSixY){
+        turtleX = 680;
+        turtleY = 100;
+        
+          }
          
       /*   else
         
