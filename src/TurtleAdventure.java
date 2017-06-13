@@ -70,6 +70,7 @@ public class TurtleAdventure extends JComponent {
     int shellFiveY = 30;
     int shellSixX = 680;
     int shellSixY = 100;
+    int shellSize = 100;
     //importing the turtle
     BufferedImage turtle = loadImage("turtle.png");
     //the y coordinate of the turtle
@@ -77,10 +78,11 @@ public class TurtleAdventure extends JComponent {
     //the x coordinate of the turtle
     int turtleY = 525;
     private int position;
-
+    double decay = 0.8;
     // GAME VARIABLES END HERE   
     // Constructor to create the Frame and place the panel in
     // You will learn more about this in Grade 12 :)
+
     public TurtleAdventure() {
         // creates a windows to show my game
         JFrame frame = new JFrame(title);
@@ -119,20 +121,17 @@ public class TurtleAdventure extends JComponent {
         g.drawImage(background, 0, 0, WIDTH + 10, HEIGHT + 10, null);
 
         //imputting the shells
-        g.drawImage(shell, shellOneX, shellOneY, 100, 100, null);
-        g.drawImage(shell, shellTwoX, shellTwoY, 100, 100, null);
-        g.drawImage(shell, shellThreeX, shellThreeY, 100, 100, null);
-        g.drawImage(shell, shellFourX, shellFourY, 100, 100, null);
-        g.drawImage(shell, shellFiveX, shellFiveY, 100, 100, null);
-        g.drawImage(shell, shellSixX, shellSixY, 100, 100, null);
+        g.drawImage(shell, shellOneX, shellOneY, shellSize, shellSize, null);
+        g.drawImage(shell, shellTwoX, shellTwoY, shellSize, shellSize, null);
+        g.drawImage(shell, shellThreeX, shellThreeY, shellSize, shellSize, null);
+        g.drawImage(shell, shellFourX, shellFourY, shellSize, shellSize, null);
+        g.drawImage(shell, shellFiveX, shellFiveY, shellSize, shellSize, null);
+        g.drawImage(shell, shellSixX, shellSixY, shellSize, shellSize, null);
 
         //imputting the turtle
         g.drawImage(turtle, turtleX, turtleY, 50, 50, null);
 
-        //create a score board
-        g.setColor(purplish);
-        g.setFont(myFront);
-        g.drawString(" " + player, WIDTH / 2, HEIGHT - HEIGHT);
+
 
 
     }
@@ -163,29 +162,6 @@ public class TurtleAdventure extends JComponent {
 
             // all your game rules and move is done in here
             // GAME LOGIC STARTS HERE 
-
-
-            if (right) {
-                dx = dx + 1;
-            }
-            if (dx > maxXVelocity) {
-                dx = maxXVelocity;
-            } else if (left) {
-                if (dx < -maxXVelocity) {
-                    dx = -maxXVelocity;
-                }
-            }
-
-            //getting the turtle to jump
-            if (jump && !inAir) {
-                inAir = false;
-                dy = jumpVelocity;
-            }
-
-            turtleY = turtleY + dy;
-            turtleX = turtleX + dx;
-
-
             //making the turtle move to the right when righ key is pressed
             if (rightPressed) {
                 turtleX = turtleX + 5;
@@ -198,6 +174,40 @@ public class TurtleAdventure extends JComponent {
             if (jump) {
                 turtleY = turtleY - 5;
             }
+            dy = dy + gravity;
+
+            if (dy > maxYVelocity) {
+                dy = maxYVelocity;
+            } else if (dy < -maxYVelocity) {
+                dy = -maxYVelocity;
+            }
+
+            if (right) {
+                dx = dx + 1;
+
+                if (dx > maxXVelocity) {
+                    dx = maxXVelocity;
+                }
+            } else if (left) {
+                dx = dx + 1;
+
+                if (dx < -maxXVelocity) {
+                    dx = -maxXVelocity;
+                }
+            } else //getting the turtle to jump
+            if (jump && !inAir) {
+                inAir = false;
+                dy = jumpVelocity;
+            } else {
+
+                dx = (int) (dx * decay);
+            }
+
+            turtleY = turtleY + dy;
+            turtleX = turtleX + dx;
+
+
+
 
             //collision method
             collision();
@@ -252,23 +262,16 @@ public class TurtleAdventure extends JComponent {
         // if a key has been pressed down
 
         @Override
-        //if the down key is pressed
         public void keyPressed(KeyEvent e) {
-            //if the player presses the down button
-            int key = e.getKeyCode();
-            if (key == KeyEvent.VK_DOWN) {
-                downPressed = true;
-            } else //if the up key is pressed
-            if (key == KeyEvent.VK_UP) {
-                upPressed = true;
-            } else //if the right key is pressed
-            if (key == KeyEvent.VK_RIGHT) {
+
+            //if the right key is pressed
+            if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
                 rightPressed = true;
             } else //if the left key is pressed
-            if (key == KeyEvent.VK_LEFT) {
+            if (e.getKeyCode() == KeyEvent.VK_LEFT) {
                 leftPressed = true;
             } else //if the space key is pressed
-            if (key == KeyEvent.VK_SPACE) {
+            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
                 jump = true;
             }
         }
@@ -277,21 +280,14 @@ public class TurtleAdventure extends JComponent {
         @Override
         public void keyReleased(KeyEvent e) {
 
-            int key = e.getKeyCode();
-            //if the down key is released
-            if (key == KeyEvent.VK_DOWN) {
-                downPressed = false;
-            } else //if the up key is released
-            if (key == KeyEvent.VK_UP) {
-                upPressed = false;
-            } else //if the right key is released
-            if (key == KeyEvent.VK_RIGHT) {
+            //if the right key is released
+            if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
                 rightPressed = false;
             } else //if the left key is released
-            if (key == KeyEvent.VK_LEFT) {
+            if (e.getKeyCode() == KeyEvent.VK_LEFT) {
                 leftPressed = false;
             } else //if the space key is released
-            if (key == KeyEvent.VK_SPACE) {
+            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
                 jump = false;
 
             }
@@ -324,19 +320,30 @@ public class TurtleAdventure extends JComponent {
         return img;
     }
 
+    /*   public void checkCollision();{
+     boolean collide = false;
+     for (int i = 0; i < shellSize; i++){
+     if (turtle.)
+     }*/
     public void collision() {
         /*  //if the turtle I made hits the bottom of the screen
          if (legY >= HEIGHT)
          {
          legY = legY - 5;
          headY = headY - 5;
-         shellY = shellY - 5;
-         * 
-         * 
-         }*/
+         shellY = shellY - 5;*/
 
+        //don't fall in the void
         if (turtleY >= 525) {
             turtleY = turtleY - 20;
+        }
+        //don't past the left side
+        if (turtleX < 0) {
+            turtleX = turtleX + 20;
+        }
+        //don't past the right side
+        if (turtleX > WIDTH) {
+            turtleX = turtleX - 20;
         }
 
         int overlapX = -1;
@@ -344,34 +351,68 @@ public class TurtleAdventure extends JComponent {
             overlapX = turtleX - shellTwoX;
 
         } else {
+
             overlapX = shellTwoX - turtleX;
         }
 
         int overlapY = -1;
 
         if (turtleY <= shellTwoY) {
-            overlapY = turtleY + 50 - shellTwoY;
+            overlapY = turtleY - 50 + shellTwoY;
         } else {
-            overlapX = shellTwoX - 100 - turtleY;
+            overlapX = shellTwoX - 50 - turtleY;
+        }
+        if (turtleY <= shellTwoY) {
+            turtleY = shellTwoY - shellSize;
+        } else {
+            turtleY = shellTwoY - shellSize;
+            /*
+             if (overlapX < overlapY) {
+             if (turtleX <= shellTwoX) {
+             turtleX = shellTwoX - 100;
+
+             } else {
+             turtleX = shellTwoX - shellSize;
+             }
+             dx = 0;
+            
+             } else {
+             */
         }
 
-        if (overlapX < overlapY) {
-            if (turtleX <= shellTwoX) {
-                turtleX = shellTwoX - 50;
+        /*           if (turtleX <= shellOneX) {
+         overlapX = turtleX - shellOneX;
 
-            } else {
-                turtleX = shellTwoX - 100;
-            }
-            dx = 0;
-        } else {
+         } else {
 
-            if (turtleY <= shellTwoY) {
-                turtleY = shellTwoY - 100;
-            } else {
-                turtleY = shellTwoY - 100;
-            }
+         overlapX = shellOneX + turtleX;
+         }
 
-        }
+         if (turtleY <= shellTwoY) {
+         overlapY = turtleY + 50 + shellOneY;
+         } else {
+         overlapX = shellOneX + 50 - turtleY;
+         }
+
+         if (overlapX < overlapY) {
+         if (turtleX <= shellOneX) {
+         turtleX = shellOneX - 50;
+
+         } else {
+         turtleX = shellOneX - 100;
+         }
+         dx = 0;
+         } else {
+
+         if (turtleY <= shellOneY) {
+         turtleY = shellOneY - 100;
+         } else {
+         turtleY = shellOneY - 100;
+         }
+             
+         dy = 0;
+
+         }*/
     }
 }
 /*  if (turtleX <= shell.getWidth()){
