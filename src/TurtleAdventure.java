@@ -358,9 +358,9 @@ public class TurtleAdventure extends JComponent {
         int overlapY = -1;
 
         if (turtleY <= shellTwoY) {
-            overlapY = turtleY - 50 + shellTwoY;
+            overlapY = turtleY + 100 - shellTwoY;
         } else {
-            overlapX = shellTwoX - 50 - turtleY;
+            overlapX = shellTwoX - 100 - turtleY;
         }
         if (turtleY <= shellTwoY) {
             turtleY = shellTwoY - shellSize;
