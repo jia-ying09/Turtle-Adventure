@@ -71,6 +71,7 @@ public class TurtleAdventure extends JComponent {
     int shellSixX = 680;
     int shellSixY = 100;
     int shellSize = 100;
+    int turtleSize = 50;
     //importing the turtle
     BufferedImage turtle = loadImage("turtle.png");
     //the y coordinate of the turtle
@@ -129,7 +130,7 @@ public class TurtleAdventure extends JComponent {
         g.drawImage(shell, shellSixX, shellSixY, shellSize, shellSize, null);
 
         //imputting the turtle
-        g.drawImage(turtle, turtleX, turtleY, 50, 50, null);
+        g.drawImage(turtle, turtleX, turtleY, turtleSize, turtleSize, null);
 
 
 
@@ -320,18 +321,7 @@ public class TurtleAdventure extends JComponent {
         return img;
     }
 
-    /*   public void checkCollision();{
-     boolean collide = false;
-     for (int i = 0; i < shellSize; i++){
-     if (turtle.)
-     }*/
     public void collision() {
-        /*  //if the turtle I made hits the bottom of the screen
-         if (legY >= HEIGHT)
-         {
-         legY = legY - 5;
-         headY = headY - 5;
-         shellY = shellY - 5;*/
 
         //don't fall in the void
         if (turtleY >= 525) {
@@ -339,123 +329,52 @@ public class TurtleAdventure extends JComponent {
         }
         //don't past the left side
         if (turtleX < 0) {
-            turtleX = turtleX + 20;
+            turtleX = turtleX + 5;
         }
         //don't past the right side
-        if (turtleX > WIDTH) {
-            turtleX = turtleX - 20;
+        if (turtleX > WIDTH - 50) {
+            turtleX = turtleX - 5;
         }
 
-        int overlapX = -1;
-        if (turtleX <= shellTwoX) {
-            overlapX = turtleX - shellTwoX;
+        //let the turtle stay on the shell at (453, 400)
+        if (turtleX >= shellTwoX - 5 && turtleY == shellTwoY || turtleX <= shellTwoX + 5 && turtleY == shellTwoY) {
+            turtleX = shellTwoX;
+            turtleY = shellTwoY;
+        }
+    }
 
-        } else {
+    public void shellOneCollision() {
+        if (!(turtleX + turtleSize < shellSize || turtleX > shellTwoX + shellSize || turtleY + turtleSize < shellTwoY || turtleY > shellTwoY + shellSize)) {
+            turtleX = shellTwoX + shellSize;
+            turtleY = shellTwoY - 150;
 
-            overlapX = shellTwoX - turtleX;
         }
 
-        int overlapY = -1;
-
-        if (turtleY <= shellTwoY) {
-            overlapY = turtleY + 100 - shellTwoY;
-        } else {
-            overlapX = shellTwoX - 100 - turtleY;
-        }
-        if (turtleY <= shellTwoY) {
-            turtleY = shellTwoY - shellSize;
-        } else {
-            turtleY = shellTwoY - shellSize;
-            /*
-             if (overlapX < overlapY) {
-             if (turtleX <= shellTwoX) {
-             turtleX = shellTwoX - 100;
-
-             } else {
-             turtleX = shellTwoX - shellSize;
-             }
-             dx = 0;
-            
-             } else {
-             */
-        }
-
-        /*           if (turtleX <= shellOneX) {
-         overlapX = turtleX - shellOneX;
-
-         } else {
-
-         overlapX = shellOneX + turtleX;
-         }
-
-         if (turtleY <= shellTwoY) {
-         overlapY = turtleY + 50 + shellOneY;
-         } else {
-         overlapX = shellOneX + 50 - turtleY;
-         }
-
-         if (overlapX < overlapY) {
-         if (turtleX <= shellOneX) {
-         turtleX = shellOneX - 50;
-
-         } else {
-         turtleX = shellOneX - 100;
-         }
-         dx = 0;
-         } else {
-
-         if (turtleY <= shellOneY) {
-         turtleY = shellOneY - 100;
-         } else {
-         turtleY = shellOneY - 100;
-         }
-             
-         dy = 0;
-
-         }*/
     }
 }
-/*  if (turtleX <= shell.getWidth()){
- turtleX = shell - 50;
- }*/
-/*      
- //let the turtle stay on the shell at (453, 400)
- if (turtleX <= shellTwoX && turtleY == shellTwoY){
- turtleX = shellTwoX - 50;
- } else {
- turtleX = shellTwoX + 100;
- } dx = 0;
-    
-         
- if (turtleX >= shellOneX - 3 && turtleY == shellOneY || turtleX <= shellOneX + 3 && turtleY == shellOneY){
+/*
+ if (turtleX >= shellOneX - 3 && turtleY == shellOneY || turtleX <= shellOneX + 3 && turtleY == shellOneY) {
  turtleX = 150;
  turtleY = 230;
 
- } 
- else
- if (turtleX >= shellThreeX - 3 && turtleY == shellThreeY || turtleX <= shellThreeX + 3 && turtleY == shellThreeY){
+ } else if (turtleX >= shellThreeX - 3 && turtleY == shellThreeY || turtleX <= shellThreeX + 3 && turtleY == shellThreeY) {
  turtleX = 201;
  turtleY = 348;
- } 
- else
- if (turtleX >= shellFourX - 3 && turtleY == shellFourY || turtleX <= shellFourX + 3 && turtleY == shellFourY){
+ } else if (turtleX >= shellFourX - 3 && turtleY == shellFourY || turtleX <= shellFourX + 3 && turtleY == shellFourY) {
  turtleX = 329;
  turtleY = 204;
 
- } 
- else
- if (turtleX >= shellFiveX - 3 && turtleY == shellFiveY || turtleX <= shellFiveX + 3 && turtleY == shellFiveY){
- turtleX = WIDTH/2;
+ } else if (turtleX >= shellFiveX - 3 && turtleY == shellFiveY || turtleX <= shellFiveX + 3 && turtleY == shellFiveY) {
+ turtleX = WIDTH / 2;
  turtleY = 30;
-        
- }
- else
- if (turtleX >= shellSixX - 3 && turtleY == shellSixY || turtleX <= shellSixX + 3 && turtleY == shellSixY){
+
+ } else if (turtleX >= shellSixX - 3 && turtleY == shellSixY || turtleX <= shellSixX + 3 && turtleY == shellSixY) {
  turtleX = 680;
  turtleY = 100;
-        
+
  }
-         
+ }
+ }
  /*   else
         
  if (turtleX == 150 || turtleX == 150 && turtleY == 230){
