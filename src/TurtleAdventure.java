@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Random;
 import javax.imageio.ImageIO;
 
 /**
@@ -48,11 +49,8 @@ public class TurtleAdventure extends JComponent {
     int dy = 0;
     int dx = 0;
     //creating new colors
-    Color bluish = new Color(144, 195, 212);
     Color purplish = new Color(163, 177, 217);
-    Color sand = new Color(219, 205, 171);
     //creating a score keeper
-    int player = 0;
     Font myFront = new Font("Ariel", Font.BOLD, 75);
     //importing the background
     BufferedImage background = loadImage("underwater.png");
@@ -71,15 +69,17 @@ public class TurtleAdventure extends JComponent {
     int shellSixX = 680;
     int shellSixY = 100;
     int shellSize = 100;
+    int shellDirection = 1;
     int turtleSize = 50;
     //importing the turtle
     BufferedImage turtle = loadImage("turtle.png");
     //the y coordinate of the turtle
     int turtleX = 25;
     //the x coordinate of the turtle
-    int turtleY = 525;
+    int turtleY = 550;
     private int position;
     double decay = 0.8;
+    Random ranGen = new Random();
     // GAME VARIABLES END HERE   
     // Constructor to create the Frame and place the panel in
     // You will learn more about this in Grade 12 :)
@@ -132,6 +132,13 @@ public class TurtleAdventure extends JComponent {
         //imputting the turtle
         g.drawImage(turtle, turtleX, turtleY, turtleSize, turtleSize, null);
 
+        g.setColor(purplish);
+        
+        g.setFont(myFront);
+        if (turtleY <= 0) {
+            g.drawString("YOU WIN", WIDTH / 2 - 200, HEIGHT / 2);      
+            reset();
+        }
 
 
 
@@ -163,6 +170,14 @@ public class TurtleAdventure extends JComponent {
 
             // all your game rules and move is done in here
             // GAME LOGIC STARTS HERE 
+
+            //collision method
+            collision();
+
+            //Staying on the shell method 
+            shellCollision();
+
+
             //making the turtle move to the right when righ key is pressed
             if (rightPressed) {
                 turtleX = turtleX + 5;
@@ -208,11 +223,56 @@ public class TurtleAdventure extends JComponent {
             turtleX = turtleX + dx;
 
 
+            if (shellOneX < 0) {
+                shellDirection = 1;
+            }
+            if (shellOneX > WIDTH - 75) {
+                shellDirection = -1;
+            }
+            shellOneX = shellOneX + shellDirection * 2;
 
+            if (shellTwoX < 0) {
+                shellDirection = 1;
+            }
+            if (shellTwoX > WIDTH - 75) {
+                shellDirection = -1;
+            }
 
-            //collision method
-            collision();
+            shellTwoX = shellTwoX + shellDirection * 3;
 
+            if (shellThreeX > WIDTH - 75) {
+                shellDirection = -1;
+            }
+            if (shellThreeX < 0) {
+                shellDirection = 1;
+            }
+            shellThreeX = shellThreeX + shellDirection * 1;
+            if (shellFourX < 0) {
+                shellDirection = 1;
+            }
+            if (shellFourX > WIDTH - 75) {
+                shellDirection = -1;
+            }
+
+            shellFourX = shellFourX + shellDirection * 4;
+
+            if (shellFiveX > WIDTH - 75) {
+                shellDirection = -1;
+            }
+            if (shellFiveX < 0) {
+                shellDirection = 1;
+            }
+            shellFiveX = shellFiveX + shellDirection * 5;
+
+            if (shellSixX > WIDTH - 75) {
+                shellDirection = -1;
+            }
+            if (shellSixX < 0) {
+                shellDirection = 1;
+            }
+            shellSixX = shellSixX + shellDirection * 5;
+            
+           
 
             // GAME LOGIC ENDS HERE 
             // update the drawing (calls paintComponent)
@@ -336,51 +396,51 @@ public class TurtleAdventure extends JComponent {
             turtleX = turtleX - 5;
         }
 
-        //let the turtle stay on the shell at (453, 400)
-        if (turtleX >= shellTwoX - 5 && turtleY == shellTwoY || turtleX <= shellTwoX + 5 && turtleY == shellTwoY) {
-            turtleX = shellTwoX;
-            turtleY = shellTwoY;
+    }
+
+    public void shellCollision() {
+        if (!(shellTwoX + shellSize + 25 < turtleSize || shellTwoX > turtleX + turtleSize || shellTwoY + shellSize - 25 < turtleY || shellTwoY > turtleY + turtleSize)) {
+            turtleX = shellTwoX + 25;
+            turtleY = shellTwoY - 50;
+
+        } else {
+            if (!(shellThreeX + shellSize + 25 < turtleSize || shellThreeX > turtleX + turtleSize || shellThreeY + shellSize - 25 < turtleY || shellThreeY > turtleY + turtleSize)) {
+                turtleX = shellThreeX + 25;
+                turtleY = shellThreeY - 50;
+
+
+            } else {
+                if (!(shellOneX + shellSize + 25 < turtleSize || shellOneX > turtleX + turtleSize || shellOneY + shellSize - 25 < turtleY || shellOneY > turtleY + turtleSize)) {
+                    turtleX = shellOneX + 25;
+                    turtleY = shellOneY - 50;
+
+
+                } else {
+                    if (!(shellFourX + shellSize + 25 < turtleSize || shellFourX > turtleX + turtleSize || shellFourY + shellSize - 25 < turtleY || shellFourY > turtleY + turtleSize)) {
+                        turtleX = shellFourX + 25;
+                        turtleY = shellFourY - 50;
+
+                    } else {
+                        if (!(shellFiveX + shellSize + 25 < turtleSize || shellFiveX > turtleX + turtleSize || shellFiveY + shellSize - 25 < turtleY || shellFiveY > turtleY + turtleSize)) {
+                            turtleX = shellFiveX + 25;
+                            turtleY = shellFiveY - 50;
+
+                        } else {
+                            if (!(shellSixX + shellSize + 25 < turtleSize || shellSixX > turtleX + turtleSize || shellSixY + shellSize - 25 < turtleY || shellSixY > turtleY + turtleSize)) {
+                                turtleX = shellSixX + 25;
+                                turtleY = shellSixY - 50;
+                            }
+
+                        }
+
+                    }
+                }
+            }
         }
     }
 
-    public void shellOneCollision() {
-        if (!(turtleX + turtleSize < shellSize || turtleX > shellTwoX + shellSize || turtleY + turtleSize < shellTwoY || turtleY > shellTwoY + shellSize)) {
-            turtleX = shellTwoX + shellSize;
-            turtleY = shellTwoY - 150;
-
-        }
-
+    public void reset() {
+        turtleX = 25;
+        turtleY = 225;
     }
 }
-/*
- if (turtleX >= shellOneX - 3 && turtleY == shellOneY || turtleX <= shellOneX + 3 && turtleY == shellOneY) {
- turtleX = 150;
- turtleY = 230;
-
- } else if (turtleX >= shellThreeX - 3 && turtleY == shellThreeY || turtleX <= shellThreeX + 3 && turtleY == shellThreeY) {
- turtleX = 201;
- turtleY = 348;
- } else if (turtleX >= shellFourX - 3 && turtleY == shellFourY || turtleX <= shellFourX + 3 && turtleY == shellFourY) {
- turtleX = 329;
- turtleY = 204;
-
- } else if (turtleX >= shellFiveX - 3 && turtleY == shellFiveY || turtleX <= shellFiveX + 3 && turtleY == shellFiveY) {
- turtleX = WIDTH / 2;
- turtleY = 30;
-
- } else if (turtleX >= shellSixX - 3 && turtleY == shellSixY || turtleX <= shellSixX + 3 && turtleY == shellSixY) {
- turtleX = 680;
- turtleY = 100;
-
- }
- }
- }
- /*   else
-        
- if (turtleX == 150 || turtleX == 150 && turtleY == 230){
- turtleY = turtleY - 20; 
- turtleX = turtleX + (150 - turtleX);
- inAir = false;}*/
-
-/* if (turtleY = 230){
- turtleY = turtleY; */
