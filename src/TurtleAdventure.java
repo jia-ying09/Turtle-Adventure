@@ -56,20 +56,25 @@ public class TurtleAdventure extends JComponent {
     BufferedImage background = loadImage("underwater.png");
     //importing the shells
     BufferedImage shell = loadImage("clam_shell.png");
-    int shellOneX = 150;
-    int shellOneY = 230;
-    int shellTwoX = 400;
-    int shellTwoY = 453;
+    int shellOneY = 453;
+    int shellOneX = 348;
+    int shellTwoX = 680;
+    int shellTwoY = 100;
     int shellThreeX = 348;
     int shellThreeY = 201;
-    int shellFourX = 604;
-    int shellFourY = 329;
-    int shellFiveX = WIDTH / 2;
-    int shellFiveY = 30;
-    int shellSixX = 680;
-    int shellSixY = 100;
+    int shellFourX = 150;
+    int shellFourY = 230;
+    int shellFiveX = 604;
+    int shellFiveY = 329;
+    int shellSixX = WIDTH / 2;
+    int shellSixY = 30;
     int shellSize = 100;
-    int shellDirection = 1;
+    int shellDirectionOne = 1;
+    int shellDirectionTwo = 1;
+    int shellDirectionThree = 1;
+    int shellDirectionFour = 1;
+    int shellDirectionFive = 1;
+    int shellDirectionSix = 1;
     int turtleSize = 50;
     //importing the turtle
     BufferedImage turtle = loadImage("turtle.png");
@@ -133,14 +138,12 @@ public class TurtleAdventure extends JComponent {
         g.drawImage(turtle, turtleX, turtleY, turtleSize, turtleSize, null);
 
         g.setColor(purplish);
-        
+
         g.setFont(myFront);
-        if (turtleY <= 0) {
-            g.drawString("YOU WIN", WIDTH / 2 - 200, HEIGHT / 2);      
-            reset();
+        if (turtleY < 0 - turtleSize) {
+            g.drawString("YOU WIN", WIDTH / 2 - 200, HEIGHT / 2);
+            
         }
-
-
 
     }
     // GAME DRAWING ENDS HERE
@@ -187,9 +190,13 @@ public class TurtleAdventure extends JComponent {
                 turtleX = turtleX - 5;
             }
             //making the turtle jump when the space key is pressed
-            if (jump) {
-                turtleY = turtleY - 5;
-            }
+           
+            else if (jump && inAir == true){
+                dy = + 15;
+
+           }
+            
+            
             dy = dy + gravity;
 
             if (dy > maxYVelocity) {
@@ -222,57 +229,13 @@ public class TurtleAdventure extends JComponent {
             turtleY = turtleY + dy;
             turtleX = turtleX + dx;
 
+            shellOneMove();
+            shellTwoMove();
+            shellThreeMove();
+            shellFourMove();
+            shellFiveMove();
+            shellSixMove();
 
-            if (shellOneX < 0) {
-                shellDirection = 1;
-            }
-            if (shellOneX > WIDTH - 75) {
-                shellDirection = -1;
-            }
-            shellOneX = shellOneX + shellDirection * 2;
-
-            if (shellTwoX < 0) {
-                shellDirection = 1;
-            }
-            if (shellTwoX > WIDTH - 75) {
-                shellDirection = -1;
-            }
-
-            shellTwoX = shellTwoX + shellDirection * 3;
-
-            if (shellThreeX > WIDTH - 75) {
-                shellDirection = -1;
-            }
-            if (shellThreeX < 0) {
-                shellDirection = 1;
-            }
-            shellThreeX = shellThreeX + shellDirection * 1;
-            if (shellFourX < 0) {
-                shellDirection = 1;
-            }
-            if (shellFourX > WIDTH - 75) {
-                shellDirection = -1;
-            }
-
-            shellFourX = shellFourX + shellDirection * 4;
-
-            if (shellFiveX > WIDTH - 75) {
-                shellDirection = -1;
-            }
-            if (shellFiveX < 0) {
-                shellDirection = 1;
-            }
-            shellFiveX = shellFiveX + shellDirection * 5;
-
-            if (shellSixX > WIDTH - 75) {
-                shellDirection = -1;
-            }
-            if (shellSixX < 0) {
-                shellDirection = 1;
-            }
-            shellSixX = shellSixX + shellDirection * 5;
-            
-           
 
             // GAME LOGIC ENDS HERE 
             // update the drawing (calls paintComponent)
@@ -398,45 +361,117 @@ public class TurtleAdventure extends JComponent {
 
     }
 
-    public void shellCollision() {
-        if (!(shellTwoX + shellSize + 25 < turtleSize || shellTwoX > turtleX + turtleSize || shellTwoY + shellSize - 25 < turtleY || shellTwoY > turtleY + turtleSize)) {
+    public void shellCollision() {   
+        
+        if (!(shellOneX + shellSize < turtleSize || shellOneX > turtleX + turtleSize || shellOneY + shellSize < turtleY - 10 || shellOneY > turtleY  - 10+ turtleSize)) {
+                    turtleX = shellOneX + 25;
+                    turtleY = shellOneY - 50;
+        } 
+        else {
+        if (!(shellTwoX + shellSize < turtleSize || shellTwoX > turtleX + turtleSize || shellTwoY + shellSize < turtleY  - 10|| shellTwoY > turtleY  - 10+ turtleSize)) {
             turtleX = shellTwoX + 25;
             turtleY = shellTwoY - 50;
 
         } else {
-            if (!(shellThreeX + shellSize + 25 < turtleSize || shellThreeX > turtleX + turtleSize || shellThreeY + shellSize - 25 < turtleY || shellThreeY > turtleY + turtleSize)) {
+            if (!(shellThreeX + shellSize < turtleSize || shellThreeX > turtleX + turtleSize || shellThreeY + shellSize < turtleY  - 10|| shellThreeY > turtleY  - 10 + turtleSize)) {
                 turtleX = shellThreeX + 25;
                 turtleY = shellThreeY - 50;
 
 
-            } else {
-                if (!(shellOneX + shellSize + 25 < turtleSize || shellOneX > turtleX + turtleSize || shellOneY + shellSize - 25 < turtleY || shellOneY > turtleY + turtleSize)) {
-                    turtleX = shellOneX + 25;
-                    turtleY = shellOneY - 50;
-
-
                 } else {
-                    if (!(shellFourX + shellSize + 25 < turtleSize || shellFourX > turtleX + turtleSize || shellFourY + shellSize - 25 < turtleY || shellFourY > turtleY + turtleSize)) {
+                    if (!(shellFourX + shellSize < turtleSize || shellFourX > turtleX + turtleSize || shellFourY + shellSize < turtleY  - 10|| shellFourY > turtleY  - 10 + turtleSize)) {
                         turtleX = shellFourX + 25;
                         turtleY = shellFourY - 50;
 
                     } else {
-                        if (!(shellFiveX + shellSize + 25 < turtleSize || shellFiveX > turtleX + turtleSize || shellFiveY + shellSize - 25 < turtleY || shellFiveY > turtleY + turtleSize)) {
+                        if (!(shellFiveX + shellSize < turtleSize || shellFiveX > turtleX + turtleSize || shellFiveY + shellSize < turtleY  - 10|| shellFiveY > turtleY  - 10 + turtleSize)) {
                             turtleX = shellFiveX + 25;
                             turtleY = shellFiveY - 50;
 
                         } else {
-                            if (!(shellSixX + shellSize + 25 < turtleSize || shellSixX > turtleX + turtleSize || shellSixY + shellSize - 25 < turtleY || shellSixY > turtleY + turtleSize)) {
+                            if (!(shellSixX + shellSize < turtleSize || shellSixX > turtleX + turtleSize || shellSixY + shellSize < turtleY  - 10|| shellSixY > turtleY  - 10 + turtleSize)) {
                                 turtleX = shellSixX + 25;
                                 turtleY = shellSixY - 50;
                             }
-
                         }
-
                     }
                 }
             }
         }
+    }
+
+    public void shellOneMove() {
+
+
+        if (shellOneX > WIDTH - 75) {
+            shellDirectionOne = -1;
+        }
+        if (shellOneX <= 0) {
+            shellDirectionOne = 1;
+        }
+        shellOneX = shellOneX + shellDirectionOne * 2;
+    }
+
+    public void shellTwoMove() {
+
+
+        if (shellTwoX > WIDTH - 75) {
+            shellDirectionTwo = -1;
+        }
+        if (shellTwoX < 0) {
+            shellDirectionTwo = 1;
+        }
+
+        shellTwoX = shellTwoX + shellDirectionTwo * 3;
+    }
+
+    public void shellThreeMove() {
+
+
+        if (shellThreeX > WIDTH - 75) {
+            shellDirectionThree = -1;
+        }
+        if (shellThreeX < 0) {
+            shellDirectionThree = 1;
+        }
+        shellThreeX = shellThreeX + shellDirectionThree * 2;
+    }
+
+    public void shellFourMove() {
+
+        if (shellFourX > WIDTH - 75) {
+            shellDirectionFour = -1;
+        }
+
+        if (shellFourX < 0) {
+            shellDirectionFour = 1;
+        }
+        shellFourX = shellFourX + shellDirectionFour * 4;
+    }
+
+    public void shellFiveMove() {
+
+
+        if (shellFiveX > WIDTH - 75) {
+            shellDirectionFive = -1;
+        }
+        if (shellFiveX < 0) {
+            shellDirectionFive = 1;
+        }
+        shellFiveX = shellFiveX + shellDirectionFive * 5;
+    }
+
+    public void shellSixMove() {
+
+
+        if (shellSixX > WIDTH - 75) {
+            shellDirectionSix = -1;
+        }
+        if (shellSixX < 0) {
+            shellDirectionSix = 1;
+        }
+        shellSixX = shellSixX + shellDirectionSix * 5;
+
     }
 
     public void reset() {
