@@ -58,16 +58,22 @@ public class TurtleAdventure extends JComponent {
     BufferedImage shell = loadImage("clam_shell.png");
     int shellOneY = 453;
     int shellOneX = 348;
-    int shellTwoX = 680;
-    int shellTwoY = 100;
-    int shellThreeX = 348;
-    int shellThreeY = 201;
-    int shellFourX = 150;
-    int shellFourY = 230;
-    int shellFiveX = 604;
-    int shellFiveY = 329;
+    
+    int shellTwoX = 604;
+    int shellTwoY = 329;
+     
+    int shellThreeX = 150;
+    int shellThreeY = 230;
+    
+     int shellFourX = 348;
+    int shellFourY = 201;
+  
+    int shellFiveX = 680;
+    int shellFiveY = 100;
+    
     int shellSixX = WIDTH / 2;
     int shellSixY = 30;
+    
     int shellSize = 100;
     int shellDirectionOne = 1;
     int shellDirectionTwo = 1;
