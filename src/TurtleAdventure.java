@@ -58,16 +58,12 @@ public class TurtleAdventure extends JComponent {
     BufferedImage shell = loadImage("clam_shell.png");
     int shellOneY = 453;
     int shellOneX = 348;
-
     int shellTwoX = 604;
     int shellTwoY = 329;
-
     int shellFourX = 348;
     int shellFourY = 190;
-
     int shellSixX = WIDTH / 2;
     int shellSixY = 30;
-
     int shellSize = 100;
     int shellDirectionOne = 1;
     int shellDirectionTwo = 1;
@@ -177,20 +173,20 @@ public class TurtleAdventure extends JComponent {
 
             //Staying on the shell method 
             shellCollision();
-            
+
             shellOneMove();
             shellTwoMove();
             shellFourMove();
             shellSixMove();
 
             /*   //making the turtle move to the right when righ key is pressed
-            if (rightPressed) {
-                turtleX = turtleX + 5;
-            }
-            //making the turtle move left when left key is pressed
-            if (leftPressed) {
-                turtleX = turtleX - 5;
-            } //making the turtle jump when the space key is pressed
+             if (rightPressed) {
+             turtleX = turtleX + 5;
+             }
+             //making the turtle move left when left key is pressed
+             if (leftPressed) {
+             turtleX = turtleX - 5;
+             } //making the turtle jump when the space key is pressed
              */
             dy = dy + gravity;
 
@@ -217,22 +213,21 @@ public class TurtleAdventure extends JComponent {
 
                 dx = (int) (dx * decay);
             }
-        //getting the turtle to jump
-        if (jump && !inAir) {
-            inAir = true;
-            dy = jumpVelocity;
+            //getting the turtle to jump
+            if (jump && !inAir) {
+                inAir = true;
+                dy = jumpVelocity;
 
-        }
-       
-        else if (!jump && inAir) {
-            inAir = false; 
-            dy = -jumpVelocity - 5;}
- 
-        
+            } else if (!jump && inAir) {
+                inAir = false;
+                dy = -jumpVelocity - 5;
+            }
+
+
             turtleY = turtleY + dy;
             turtleX = turtleX + dx;
 
-            
+
 
             // GAME LOGIC ENDS HERE 
             // update the drawing (calls paintComponent)
@@ -251,78 +246,78 @@ public class TurtleAdventure extends JComponent {
                 }
             } catch (Exception e) {
             };
-        
 
-}
+
+        }
     }
 
     // Used to implement any of the Mouse Actions
     private class Mouse extends MouseAdapter {
-    // if a mouse button has been pressed down
+        // if a mouse button has been pressed down
 
-    @Override
-    public void mousePressed(MouseEvent e) {
-    }
+        @Override
+        public void mousePressed(MouseEvent e) {
+        }
 
-    // if a mouse button has been released
-    @Override
-    public void mouseReleased(MouseEvent e) {
-    }
+        // if a mouse button has been released
+        @Override
+        public void mouseReleased(MouseEvent e) {
+        }
 
-    // if the scroll wheel has been moved
-    @Override
-    public void mouseWheelMoved(MouseWheelEvent e) {
-    }
+        // if the scroll wheel has been moved
+        @Override
+        public void mouseWheelMoved(MouseWheelEvent e) {
+        }
 
-    // if the mouse has moved positions
-    @Override
-    public void mouseMoved(MouseEvent e) {
+        // if the mouse has moved positions
+        @Override
+        public void mouseMoved(MouseEvent e) {
+        }
     }
-}
 
 // Used to implements any of the Keyboard Actions
-private class Keyboard extends KeyAdapter {
-    // if a key has been pressed down
+    private class Keyboard extends KeyAdapter {
+        // if a key has been pressed down
 
-    @Override
-    public void keyPressed(KeyEvent e) {
+        @Override
+        public void keyPressed(KeyEvent e) {
 
-        //if the right key is pressed
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            rightPressed = true;
-        } else //if the left key is pressed
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            leftPressed = true;
-        } else //if the space key is pressed
-        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            jump = true;
+            //if the right key is pressed
+            if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                rightPressed = true;
+            } else //if the left key is pressed
+            if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                leftPressed = true;
+            } else //if the space key is pressed
+            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+                jump = true;
+            }
+        }
+
+        // if a key has been released
+        @Override
+        public void keyReleased(KeyEvent e) {
+
+            //if the right key is released
+            if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                rightPressed = false;
+
+            } else //if the left key is released
+            if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                leftPressed = false;
+
+            } else //if the space key is released
+            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+                jump = false;
+
+            }
         }
     }
 
-    // if a key has been released
-    @Override
-    public void keyReleased(KeyEvent e) {
-
-        //if the right key is released
-        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            rightPressed = false;
-
-        } else //if the left key is released
-        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            leftPressed = false;
-
-        } else //if the space key is released
-        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            jump = false;
-
-        }
-    }
-}
-
-/**
- * @param args the command line arguments
- */
-public static void main(String[] args) {
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
         // creates an instance of my game
         TurtleAdventure game = new TurtleAdventure();
 
@@ -364,30 +359,30 @@ public static void main(String[] args) {
 
     public void shellCollision() {
 
-        if (!(shellOneX + shellSize < turtleSize || shellOneX > turtleX + turtleSize || shellOneY + shellSize < turtleY- 5 || shellOneY > turtleY -5)) {
+        if (!(shellOneX + shellSize < turtleSize || shellOneX > turtleX + turtleSize || shellOneY + shellSize < turtleY - 5 || shellOneY > turtleY - 5)) {
             turtleX = shellOneX + 25;
-            turtleY = shellOneY ;
-            
-        } else {    
-                    if (!(shellTwoX + shellSize < turtleSize|| shellTwoX > turtleX + turtleSize || shellTwoY + shellSize < turtleY  || shellTwoY > turtleY )) {
-                        turtleX = shellTwoX + 25;
-                        turtleY = shellTwoY ;
-                
-         } else {
-                 if (!(shellFourX + shellSize < turtleSize || shellFourX > turtleX + turtleSize|| shellFourY + shellSize < turtleY || shellFourY > turtleY)) {
+            turtleY = shellOneY;
+
+        } else {
+            if (!(shellTwoX + shellSize < turtleSize || shellTwoX > turtleX + turtleSize || shellTwoY + shellSize < turtleY || shellTwoY > turtleY)) {
+                turtleX = shellTwoX + 25;
+                turtleY = shellTwoY;
+
+            } else {
+                if (!(shellFourX + shellSize < turtleSize || shellFourX > turtleX + turtleSize || shellFourY + shellSize < turtleY || shellFourY > turtleY)) {
                     turtleX = shellFourX + 25;
-                    turtleY = shellFourY ;
-                   
+                    turtleY = shellFourY;
+
                 } else {
-                    
-                    if (!(shellSixX + shellSize < turtleSize|| shellSixX > turtleX + turtleSize || shellSixY + shellSize < turtleY || shellSixY > turtleY )) {
+
+                    if (!(shellSixX + shellSize < turtleSize || shellSixX > turtleX + turtleSize || shellSixY + shellSize < turtleY || shellSixY > turtleY)) {
                         turtleX = shellSixX + 25;
                         turtleY = shellSixY;
                     }
                 }
             }
         }
-       
+
     }
 
     public void shellOneMove() {
@@ -440,6 +435,4 @@ public static void main(String[] args) {
         turtleX = 25;
         turtleY = 550;
     }
-
-
 }
